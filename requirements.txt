@@ -1,0 +1,6 @@
+fastapi>=0.115,<1
+uvicorn[standard]>=0.30,<1
+httpx>=0.27,<1
+openai>=2,<3
+websockets>=14,<17
+tzdata>=2024.1

@@ -81,6 +81,32 @@ def phone(value):
     return digits
 
 
+@app.post("/missed")
+async def missed(request: Request):
+    """Adapter endpoint for the phone carrier's authenticated missed-call workflow."""
+    body = await request.body()
+    expected = hmac.new(os.environ["WORKFLOW_SECRET"].encode(),body,hashlib.sha256).hexdigest()
+    if not hmac.compare_digest(expected, request.headers.get("X-Switchboard-Signature","")):
+        raise HTTPException(401,"Invalid signature")
+    try:
+        data = json.loads(body)
+        call = data["call_id"]
+        number = phone(data["phone"])
+        if not isinstance(call,str) or not 1 <= len(call) <= 128:
+            raise ValueError("Invalid call ID")
+    except (ValueError, KeyError, TypeError):
+        raise HTTPException(400,"Invalid missed-call event")
+    cfg = config()
+    if data.get("sms_consent") is True:
+        result = await webhook("send_followup_sms",call,{"phone":number,"consent":True,
+            "booking_url":cfg["booking_url"],"mode":cfg["mode"]})
+    else:
+        result = await webhook("staff",call,{"phone":number,"reason":"Missed incoming call"})
+    if result["status"] != "acknowledged":
+        raise HTTPException(503,"Workflow not acknowledged; retry with the same event")
+    return result
+
+
 async def webhook(kind, call, payload):
     """Receivers deduplicate retries by Idempotency-Key and acknowledge delivery explicitly."""
     url = os.environ.get(kind.upper()+"_WEBHOOK", "")

@@ -1,17 +1,23 @@
 """Single-location appointment calendar. Times are local to the configured business."""
 import os
 import sqlite3
+from contextlib import contextmanager
 from datetime import date, datetime, time, timedelta
 from zoneinfo import ZoneInfo
 
 DURATIONS = {"cleaning": 60, "diagnostic": 30, "drop_off": 15, "waiting_bay": 60}
 
 
+@contextmanager
 def connect():
     db = sqlite3.connect(os.getenv("DATABASE_PATH", "switchboard.sqlite3"), timeout=10)
     db.execute("""CREATE TABLE IF NOT EXISTS booking (
         call_id TEXT PRIMARY KEY, resource TEXT, start TEXT, finish TEXT, contact TEXT)""")
-    return db
+    try:
+        with db:
+            yield db
+    finally:
+        db.close()
 
 
 def resource_for(service, config):

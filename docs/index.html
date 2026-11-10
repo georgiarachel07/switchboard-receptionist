@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142f31">
+  <meta name="description" content="Try an open-source voice receptionist for dental practices, repair shops and retail stores. Made by Georgia.">
+  <title>Switchboard · Voice receptionist</title>
+  <link rel="stylesheet" href="style.css"><script defer src="studio.js"></script>
+</head>
+<body>
+<header><a class="brand" href="./">Switchboard<span aria-hidden="true">✳</span></a>
+  <nav><a href="#studio">Call studio</a><a href="https://github.com/georgiarachel07/switchboard-receptionist">Source code ↗</a></nav>
+</header>
+<main>
+  <section class="intro"><div><p class="kicker">Open-source voice receptionist</p>
+    <h1>Your front desk,<br><em>on call.</em></h1>
+    <p>Answer a patient, find a service bay, or check the shelf. Switchboard takes the call and helps the caller choose their next step.</p>
+    <a class="primary" href="#studio">Try a sample call ↓</a></div>
+    <aside><p>Inside the call</p><div class="wave" aria-hidden="true"></div>
+    <blockquote id="quote">“Is this your first visit with us?”</blockquote><small id="caption">Dental reception</small></aside>
+  </section>
+  <section id="studio"><div class="section-title"><div><p class="kicker">Interactive preview</p><h2>Call studio</h2></div><p>Fictional calls · No personal details needed</p></div>
+    <div class="workspace"><div class="setup"><h3>Choose a front desk</h3>
+      <label for="industry">Business</label><select id="industry"><option value="dental">Dental practice</option><option value="auto">Auto repair shop</option><option value="retail">Retail store</option></select>
+      <label for="scenario">Caller’s request</label><select id="scenario"></select>
+      <label class="read"><input id="read" type="checkbox"> Read receptionist turns aloud</label>
+      <button id="start" class="primary">Start sample call</button>
+      <p class="hint">Choose the caller’s replies. Starting again clears this sample conversation.</p>
+    </div><div class="conversation"><h3>Conversation</h3><div id="lines" role="log" aria-live="polite"><p class="empty">Choose a scenario to pick up the call.</p></div><div id="choices"></div><p id="outcome" role="status"></p></div></div>
+  </section>
+  <section class="deploy"><div><p class="kicker">MIT licensed</p><h2>Run your own front desk.</h2><p>Configure your business hours, calendar, human queue, and follow-up workflows in the Python project. Live phone calls require a SIP number and voice provider.</p></div>
+  <a href="https://github.com/georgiarachel07/switchboard-receptionist#run-the-phone-service">Setup guide ↗</a></section>
+</main><footer><strong>Made by Georgia</strong><span>Switchboard · Free and open source</span></footer>
+</body></html>

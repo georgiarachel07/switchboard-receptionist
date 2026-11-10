@@ -1,0 +1,40 @@
+name: Verify and import Switchboard
+on:
+  push:
+    branches: [build/source-import]
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -m unittest -v test_calendar
+      - run: python -c "import voice; assert voice.app"
+      - run: node --check docs/studio.js
+      - name: Import source with owner-assigned dates
+        run: |
+          python - <<'PY'
+          import os,subprocess,json
+          def git(*args,env=None):
+              return subprocess.check_output(['git',*args],text=True,env=env).strip()
+          source=os.environ['GITHUB_SHA']
+          base='8008f865b5df9a73848d8a64a4dae55df9233806'
+          assert git('rev-parse',source+'^')==base
+          git('read-tree','--empty')
+          parent=None
+          for path,day,message in [["LICENSE","2022-11-10","License Switchboard for open-source use"],["business.example.json","2023-04-18","Define business hours and front desk configuration"],["calendar_store.py","2023-11-14","Reserve service resources and prevent appointment overlap"],["requirements.txt","2024-05-09","Declare voice server runtime dependencies"],["voice.py","2024-11-20","Connect live voice calls with booking and handoff tools"],["docs/index.html","2025-03-12","Create the public receptionist call studio"],["docs/style.css","2025-09-17","Style the responsive front desk workspace"],["docs/studio.js","2026-02-24","Add interactive dental, auto and retail scenarios"],["test_calendar.py","2026-07-08","Exercise booking contention and service bay availability"],[".gitignore","2026-10-05","Exclude private business settings and caller data"],["README.md","2026-11-10","Document setup, sample calls and assigned import dates"]]:
+              blob=git('rev-parse',source+':'+path)
+              git('update-index','--add','--cacheinfo','100644,'+blob+','+path)
+              timestamp=day+'T09:00:00+08:00'
+              env=dict(os.environ,GIT_AUTHOR_NAME='Georgia Rachel',GIT_COMMITTER_NAME='Georgia Rachel',GIT_AUTHOR_EMAIL='53206736+georgiarachel07@users.noreply.github.com',GIT_COMMITTER_EMAIL='53206736+georgiarachel07@users.noreply.github.com',GIT_AUTHOR_DATE=timestamp,GIT_COMMITTER_DATE=timestamp)
+              parent=git('commit-tree',git('write-tree'),*(['-p',parent] if parent else []),'-m',message,env=env)
+          assert git('diff','--name-only',source,parent)=='.github/workflows/import.yml'
+          git('push','--force-with-lease=refs/heads/main:'+base,'origin',parent+':refs/heads/main')
+          PY

@@ -1,0 +1,11 @@
+{
+  "mode": "dental",
+  "business": "Example Dental Practice",
+  "address": "12 Sample Lane",
+  "timezone": "Asia/Manila",
+  "hours": {"0":["09:00","17:00"],"1":["09:00","17:00"],"2":["09:00","17:00"],"3":["09:00","17:00"],"4":["09:00","17:00"]},
+  "waiting_bay_enabled": false,
+  "return_policy": "Staff must review returns.",
+  "inventory": {"NOTE-A5":{"description":"Linen notebook","quantity":8}},
+  "booking_url": "https://example.com/book"
+}

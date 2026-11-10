@@ -2,7 +2,7 @@
 
 **Made by Georgia.** Free, MIT-licensed source for a voice receptionist serving dental practices, repair shops and retail stores.
 
-**[Try the call studio](https://georgiarachel07.github.io/switchboard-receptionist/)**. Choose a front desk and a scenario, play the caller, and optionally hear the receptionist with your browserâ€™s speech synthesis. The public website uses fictional contacts and local sample conversations. No microphone, credentials or registration are required.
+**[Try the call studio](https://georgiarachel07.github.io/switchboard-receptionist/)**. Choose a front desk and a scenario, play the caller, and optionally hear the receptionist with your browser's speech synthesis. The public website uses fictional contacts and local sample conversations. No microphone, credentials or registration are required.
 
 ## Run the phone service
 

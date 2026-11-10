@@ -42,6 +42,5 @@ For carrier-reported missed calls, have your trusted carrier adapter validate th
 
 The static site lives in `docs/`. Serve it with `python -m http.server 8080 --directory docs`, or choose GitHub Pages â†’ main â†’ /docs. Pages hosts the public call studio. The live telephone service runs separately. The MIT license permits reuse and modification with attribution.
 
-## Repository dates
 
-The project was built on November 10, 2026. The owner requested assigned import commit dates spanning November 2022 through November 2026. Those dates describe Git metadata, not past development, deployment or customer use. GitHub determines how commits appear on a profile.
+
